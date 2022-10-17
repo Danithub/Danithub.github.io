@@ -6,11 +6,12 @@ image: project1.jpg
 date: 2019-06-01 ~ 2019-09-30
 ---
 
-<div style="font-weight: bold; font-size: 1.5rem">1</div>
-<div style="text-align: right; color: #aaaab3">2019/06 ~ 2019/09 Winform,WinCE FrontEnd 개발</div>
+<div style="font-weight: bold; font-size: 1.5rem">출하 바코드 검증 시스템</div>
+<div style="text-align: right; color: #aaaab3">2019/06 ~ 2019/09</div>
 
 ---
 
+역할 : WinForm, WinCE 프로그램 FE개발
 출력된 바코드에 대한 이상 유무 검증과 드럼 입고/생산/출하 과정 실적 처리를 구현했습니다.
 
 - Panasonic Scanner SDK 활용
