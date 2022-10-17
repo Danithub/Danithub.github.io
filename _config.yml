@@ -1,10 +1,10 @@
-title: Hyde
+title: Dan-Ho
 description: >-
-  Build your own portfolio <br>
-  with Hyde.
-url: "https://chemistryx.me"
-github: ChemistryX
-email: changeme@chemistryx.me
+  .Net Developer <br>
+  Backend Develop 준비중입니다.
+url: "https://danithub.github.io"
+github: Danithub
+email: life4789@gmail.com
 google_analytics: <YOUR UA TOKEN>
 
 exclude: [README.md, Gemfile, Gemfile.lock]
