@@ -13,7 +13,7 @@ date: 2019-06-01 ~ 2019-09-30
 
 <img
     class="hyde page-image"
-    src="/assets/images/projects/{{ page.image }}"
+    src="/assets/images/projects/출하바코드_검증시스템_스캐너_메인화면.png"
     alt="{{ page.image | split: '.' | first }}"
 />
 <img
