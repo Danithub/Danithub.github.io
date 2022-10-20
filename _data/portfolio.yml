@@ -1,7 +1,51 @@
-- title: 포트폴리오 데모
-  description: 포트폴리오 데모 아이템입니다.
-  image: demo.png
-  
+- title: iTextSharp를 활용한 PDF Parser
+  description: 현대중공업 특수
+  image: 91_main.png
+
 - title: 출하바코드 검증시스템
   description: 한국알콜산업(KAI)/ENF Tech.
   image: main_enf_barcod_verification_scanner.png
+  
+- title: 실시간 내업 공정 정보수집 체계 구축
+  description: 현대삼호중공업
+  image: 실시간_내업_공정_정보수집_체계_구축.png
+  
+- title: 의장/철의장 스마트 작업 관리 시스템
+  description: 현대중공업
+  image: 의장철의장_스마트_작업_관리_시스템.png
+  
+- title: 2야드 강재 위치 추적 시스템
+  description: 현대중공업
+  image: 2야드_강재_위치_추적_시스템.png
+  
+- title: 지게차 전후방 카메라 시스템 개선
+  description: 현대삼호중공업
+  image: 지게차_전후방_카메라_시스템_개선.png
+  
+- title: 지게차 충돌방지 시스템(PoC)
+  description: 현대삼호중공업
+  image: 지게차_충돌방지_시스템(PoC).png
+  
+- title: 고소차_충돌방지_시스템(PoC)
+  description: 현대중공업
+  image: 고소차_충돌방지_시스템(PoC).png
+  
+- title: 내업 실적 수집 체계 구축
+  description: 현대중공업
+  image: 내업_실적_수집_체계_구축.png
+  
+- title: 안드로이드 플랫폼 변경 프로젝트
+  description: 한국알콜산업(KAI)/ENF Tech.
+  image: 안드로이드_플랫폼_변경_프로젝트.png
+  
+- title: 문서 OCR 프로그램
+  description: 현대중공업
+  image: 문서_OCR_프로그램.png
+  
+- title: 교육대상자 출결 인증 시스템
+  description: 현대중공업
+  image: 교육대상자_출결_인증_시스템.png
+  
+- title: 백그라운드 GPS 송신 앱
+  description: 현대중공업
+  image: 백그라운드_GPS_송신_앱.png
