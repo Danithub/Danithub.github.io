@@ -16,29 +16,34 @@ date: 2019-06-01 ~ 2019-09-30
     src="/assets/images/projects/출하바코드_검증시스템_스캐너_메인화면.png"
     alt="{{ page.image | split: '.' | first }}"
     width="50%"
+    height="50%"
 />
 <img
     class="hyde page-image"
     src="/assets/images/projects/출하바코드_검증시스템_PDA_메인화면.png"
     alt="{{ page.image | split: '.' | first }}"
+    width="50%"
     height="50%"
 />
 <img
     class="hyde page-image"
     src="/assets/images/projects/출하바코드_검증시스템_PDA_실적조회.png"
     alt="{{ page.image | split: '.' | first }}"
+    width="50%"
     height="50%"
 />
 <img
     class="hyde page-image"
     src="/assets/images/projects/출하바코드_검증시스템_PDA_라벨검증.png"
     alt="{{ page.image | split: '.' | first }}"
+    width="50%"
     height="50%"
 />
 <img
     class="hyde page-image"
     src="/assets/images/projects/출하바코드_검증시스템_PDA_데이터조회.png"
     alt="{{ page.image | split: '.' | first }}"
+    width="50%"
     height="50%"
 />
 
