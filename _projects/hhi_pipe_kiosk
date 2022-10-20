@@ -16,28 +16,28 @@ date: 2020-04-01 ~ 2020-06-30
 
 <img
     class="hyde page-image"
-    src="/assets/images/projects/{{page.image1}}.png"
+    src="/assets/images/projects/의장철의장_스마트_작업_관리_시스템_메인화면.png"
     alt="{{ page.image | split: '.' | first }}"
     width="50%"
     height="50%"
 />
 <img
     class="hyde page-image"
-    src="/assets/images/projects/{{page.image2}}.png"
+    src="/assets/images/projects/의장철의장_스마트_작업_관리_시스템_메뉴화면.png"
     alt="{{ page.image | split: '.' | first }}"
     width="50%"
     height="50%"
 />
 <img
     class="hyde page-image"
-    src="/assets/images/projects/{{page.image3}}.png"
+    src="/assets/images/projects/의장철의장_스마트_작업_관리_시스템_도면뷰어.png"
     alt="{{ page.image | split: '.' | first }}"
     width="50%"
     height="50%"
 />
 <img
     class="hyde page-image"
-    src="/assets/images/projects/{{page.image4}}.png"
+    src="/assets/images/projects/의장철의장_스마트_작업_관리_시스템_실적수집.png"
     alt="{{ page.image | split: '.' | first }}"
     width="50%"
     height="50%"
