@@ -1,10 +1,36 @@
 // Post
+.page-image{
+  display: block;
+  width: 85%;
+  height: 25rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 5px;
+  margin-bottom: 2rem;
+  object-fit: scale-down;
+}
+.page-content{
+  margin: 1rem auto;
+  display: block;
+  width: 85%
+}
+@media (max-width: 768px){
+  .page-image{
+    width: 100%;
+    height: 10rem;
+    margin: 0rem auto;
+  } 
+  .page-content{
+    display: block;
+     width: 100%
+  }
+} 
 
 .hyde.posts {
   font-family: Pretendard, sans-serif;
 
   .hyde.post {
-    padding: 4rem 0;
+    padding: 1.5rem 0;
     line-height: 1.4;
 
     @media (max-width: $small) {
@@ -14,7 +40,7 @@
     .hyde.hyde.post-thumbnail-wrapper {
       overflow: hidden;
       border-radius: 5px;
-      background-color: $dark;
+      background-color: $black;
 
       .hyde.post-thumbnail {
         height: 14rem;
@@ -51,7 +77,7 @@
       .hyde.post-author {
         font-size: 0.875rem;
         font-weight: 500;
-        color: $dark;
+        color: $black;
 
         @media (max-width: $small) {
           font-size: 0.75rem;
@@ -61,12 +87,11 @@
 
     .hyde.post-title {
       font-size: 1.5rem;
-      color: $dark;
+      color: $black;
       margin: 0.75rem 0 0 0;
     }
 
     .hyde.post-preview {
-      color: $dark;
       margin: 0.75rem 0;
       word-break: break-all;
 
