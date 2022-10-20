@@ -1,8 +1,8 @@
 ---
 title: 출하 바코드 검증 시스템
 description: 한국알콜산업(KAI)/이엔에프테크놀로지(ENF Tech)
-timage: main_enf_barcod_verification_scanner.png
-image: main_enf_barcod_verification_scanner.png
+timage: 출하바코드_검증시스템_스캐너_메인화면.png
+image: 출하바코드_검증시스템_스캐너_메인화면.png
 date: 2019-06-01 ~ 2019-09-30
 ---
 
@@ -10,6 +10,12 @@ date: 2019-06-01 ~ 2019-09-30
 <div style="text-align: right; color: #aaaab3">2019/06 ~ 2019/09</div>
 
 ---
+
+<img
+    class="hyde page-image"
+    src="/assets/images/projects/{{ page.image }}"
+    alt="{{ page.image | split: '.' | first }}"
+/>
 
 출력된 바코드에 대한 이상 유무 검증과 드럼 입고/생산/출하 과정 실적 처리를 구현했습니다.
 
