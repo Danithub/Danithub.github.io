@@ -1,8 +1,8 @@
 ---
 title: 출하 바코드 검증 시스템
 description: 한국알콜산업(KAI)/이엔에프테크놀로지(ENF Tech)
-timage: project1.jpg
-image: project1.jpg
+timage: main_enf_barcod_verification_scanner.png
+image: main_enf_barcod_verification_scanner.png
 date: 2019-06-01 ~ 2019-09-30
 ---
 
