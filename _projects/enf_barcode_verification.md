@@ -16,6 +16,11 @@ date: 2019-06-01 ~ 2019-09-30
     src="/assets/images/projects/{{ page.image }}"
     alt="{{ page.image | split: '.' | first }}"
 />
+<img
+    class="hyde page-image"
+    src="/assets/images/projects/출하바코드_검증시스템_PDA_실적조회.png"
+    alt="{{ page.image | split: '.' | first }}"
+/>
 
 출력된 바코드에 대한 이상 유무 검증과 드럼 입고/생산/출하 과정 실적 처리를 구현했습니다.
 
