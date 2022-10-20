@@ -19,42 +19,42 @@ date: 2019-09-01 ~ 2020-03-31
 
 <img
     class="hyde page-image"
-    src="/assets/images/projects/{{page.image1}}.png"
+    src="/assets/images/projects/실시간_내업_공정_정보수집_체계구축_분배장_메인화면.png"
     alt="{{ page.image | split: '.' | first }}"
     width="50%"
     height="50%"
 />
 <img
     class="hyde page-image"
-    src="/assets/images/projects/{{page.image2}}.png"
+    src="/assets/images/projects/실시간_내업_공정_정보수집_체계구축_분배장_거리센서활용.png"
     alt="{{ page.image | split: '.' | first }}"
     width="50%"
     height="50%"
 />
 <img
     class="hyde page-image"
-    src="/assets/images/projects/{{page.image3}}.png"
+    src="/assets/images/projects/실시간_내업_공정_정보수집_체계구축_분배장_워크플로우.png"
     alt="{{ page.image | split: '.' | first }}"
     width="50%"
     height="50%"
 />
 <img
     class="hyde page-image"
-    src="/assets/images/projects/{{page.image4}}.png"
+    src="/assets/images/projects/실시간_내업_공정_정보수집_체계구축_대조립_설치현황.png"
     alt="{{ page.image | split: '.' | first }}"
     width="50%"
     height="50%"
 />
 <img
     class="hyde page-image"
-    src="/assets/images/projects/{{page.image5}}.png"
+    src="/assets/images/projects/실시간_내업_공정_정보수집_체계구축_대조립_모니터링.png"
     alt="{{ page.image | split: '.' | first }}"
     width="50%"
     height="50%"
 />
 <img
     class="hyde page-image"
-    src="/assets/images/projects/{{page.image6}}.png"
+    src="/assets/images/projects/실시간_내업_공정_정보수집_체계구축_대조립_워크플로우.png"
     alt="{{ page.image | split: '.' | first }}"
     width="50%"
     height="50%"
