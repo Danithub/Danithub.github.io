@@ -1,0 +1,77 @@
+---
+title: 실시간 내업 공정 정보 수집 체계 구축
+description: 현대삼중공업
+timage: 실시간_내업_공정_정보수집_체계구축_분배장_메인화면.png
+image1: 실시간_내업_공정_정보수집_체계구축_분배장_메인화면.png
+image2: 실시간_내업_공정_정보수집_체계구축_분배장_거리센서활용.png
+image3: 실시간_내업_공정_정보수집_체계구축_분배장_워크플로우.png
+image4: 실시간_내업_공정_정보수집_체계구축_대조립_설치현황.png
+image5: 실시간_내업_공정_정보수집_체계구축_대조립_모니터링.png
+image6: 실시간_내업_공정_정보수집_체계구축_대조립_워크플로우.png
+date: 2019-09-01 ~ 2020-03-31
+---
+
+<div style="font-weight: bold; font-size: 1.5rem">실시간 내업 공정 정보 수집 체계 구축</div>
+<div style="text-align: right; color: #aaaab3">2019-09-01 ~ 2020-03-31</div>
+
+---
+
+<img
+    class="hyde page-image"
+    src="/assets/images/projects/{{page.image1}}.png"
+    alt="{{ page.image | split: '.' | first }}"
+    width="50%"
+    height="50%"
+/>
+<img
+    class="hyde page-image"
+    src="/assets/images/projects/{{page.image2}}.png"
+    alt="{{ page.image | split: '.' | first }}"
+    width="50%"
+    height="50%"
+/>
+<img
+    class="hyde page-image"
+    src="/assets/images/projects/{{page.image3}}.png"
+    alt="{{ page.image | split: '.' | first }}"
+    width="50%"
+    height="50%"
+/>
+<img
+    class="hyde page-image"
+    src="/assets/images/projects/{{page.image4}}.png"
+    alt="{{ page.image | split: '.' | first }}"
+    width="50%"
+    height="50%"
+/>
+<img
+    class="hyde page-image"
+    src="/assets/images/projects/{{page.image5}}.png"
+    alt="{{ page.image | split: '.' | first }}"
+    width="50%"
+    height="50%"
+/>
+<img
+    class="hyde page-image"
+    src="/assets/images/projects/{{page.image6}}.png"
+    alt="{{ page.image | split: '.' | first }}"
+    width="50%"
+    height="50%"
+/>
+
+출력된 바코드에 대한 이상 유무 검증과 드럼 입고/생산/출하 과정 실적 처리를 구현했습니다.
+
+- 역할 : WinForm, WinCE 프로그램 FE개발
+- Panasonic Scanner SDK 활용
+- 이미지 처리를 통한 바코드 이상 유무 확인
+- 드럼의 입고/생산/출하 실적 관리를 위한 WinCE 단말기 프로그램 개발
+
+---
+
+<div class="hyde tags skills">
+    <a class="hyde tag">C#</a>
+    <a class="hyde tag">.Net Framework</a>
+    <a class="hyde tag">WinCE</a>
+    <a class="hyde tag">Microsoft SQL</a>
+    <a class="hyde tag">WCF</a>
+</div>
