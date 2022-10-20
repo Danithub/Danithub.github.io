@@ -1,6 +1,6 @@
 - title: iTextSharp를 활용한 PDF Parser
   description: 현대중공업 특수
-  image: 91_main.png
+  image: iTextSharp를_활용한_PDF_Parser.png
 
 - title: 출하바코드 검증시스템
   description: 한국알콜산업(KAI)/ENF Tech.
@@ -26,7 +26,7 @@
   description: 현대삼호중공업
   image: 지게차_충돌방지_시스템(PoC).png
   
-- title: 고소차_충돌방지_시스템(PoC)
+- title: 고소차 충돌방지 시스템(PoC)
   description: 현대중공업
   image: 고소차_충돌방지_시스템(PoC).png
   
