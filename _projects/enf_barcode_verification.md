@@ -13,15 +13,11 @@ date: 2019-06-01 ~ 2019-09-30
 
 <div class="table-wrapper" markdwon="block">
     <img
-    class="hyde page-image"
     src="/assets/images/projects/출하바코드_검증시스템_스캐너_메인화면.png"
-    alt="{{ page.image | split: '.' | first }}"
     width="50%"
     height="50%"
     /><img
-        class="hyde page-image"
         src="/assets/images/projects/출하바코드_검증시스템_PDA_메인화면.png"
-        alt="{{ page.image | split: '.' | first }}"
         width="50%"
         height="50%"
     /><img
