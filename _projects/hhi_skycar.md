@@ -14,7 +14,7 @@ date: 2021-06-01 ~ 2021-09-31
 
 거리센서를 활용한 고소차 충돌방지 시스템을 개발하였습니다.
 
-- 역할 : Winform FE 개발
+- 역할 : Winform 솔루션 개발
 - Panasonic Network Camera SDK 활용
 - Emgu.CV OpenAPI를 활용한 카메라 화면 연동
 - 태블릿 최적화
