@@ -1,12 +1,12 @@
 ---
-title: 내업 실적 수집 체계 구축
+title: 내업 실적 수집 체계 구축(자동화)
 description: 현대중공업
 timage: 내업_실적_수집_체계_구축_장척RC_메인화면.png
 image: 내업_실적_수집_체계_구축_장척RC_메인화면.png
 date: 2021-10-01 ~ 2022-03-31
 ---
 
-<div style="font-weight: bold; font-size: 1.5rem">내업 실적 수집 체계 구축</div>
+<div style="font-weight: bold; font-size: 1.5rem">내업 실적 수집 체계 구축(자동화)</div>
 <div style="text-align: right; color: #aaaab3">2021-10-01 ~ 2022-03-31</div>
 
 
