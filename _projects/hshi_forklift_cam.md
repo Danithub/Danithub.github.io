@@ -18,16 +18,15 @@ date: 2021-03-01 ~ 2021-05-31
 - 역할 : 솔루션 개발
 - Panasonic Network Camera SDK 활용
 - Emgu.CV를 활용한 카메라 화면 연동
+- 태블릿 최적화
 
 ---
 
 <div class="hyde tags skills">
     <a class="hyde tag">C#</a>
     <a class="hyde tag">.Net Framework</a>
-    <a class="hyde tag">WinCE</a>
-    <a class="hyde tag">Microsoft SQL</a>
-    <a class="hyde tag">WCF</a>
 </div>
+
 ---
 
 <img
