@@ -35,3 +35,17 @@ iTextSharp OpenAPI를 활용하여 PDF 내용을 추출하는 프로그램을 �
     width="50%"
     height="50%"
 />
+<img
+    class="hyde page-image"
+    src="/assets/images/projects/iTextSharp를_이용한_PDF_Parser_샘플도면.png"
+    alt="{{ page.image | split: '.' | first }}"
+    width="50%"
+    height="50%"
+/>
+<img
+    class="hyde page-image"
+    src="/assets/images/projects/iTextSharp를_이용한_PDF_Parser_추출데이터엑셀저장.png"
+    alt="{{ page.image | split: '.' | first }}"
+    width="50%"
+    height="50%"
+/>
