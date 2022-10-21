@@ -7,7 +7,7 @@ date: 2022-09-01 ~ 2022-10-31
 ---
 
 <div style="font-weight: bold; font-size: 1.5rem">교육대상자 출결 인증 시스템</div>
-<div style="text-align: right; color: #aaaab3">2019-05-01 ~ 2019-05-31</div>
+<div style="text-align: right; color: #aaaab3">2022-09-01 ~ 2022-10-31</div>
 
 ---
 
@@ -21,19 +21,21 @@ date: 2022-09-01 ~ 2022-10-31
 
 ---
 
-출력된 바코드에 대한 이상 유무 검증과 드럼 입고/생산/출하 과정 실적 처리를 구현했습니다.
+Anroid/ios 크로스 플랫폼 개발을 위해 Flutter를 사용하여 개발했습니다.
 
-- 역할 : WinForm, WinCE 프로그램 FE개발
-- Panasonic Scanner SDK 활용
-- 이미지 처리를 통한 바코드 이상 유무 확인
-- 드럼의 입고/생산/출하 실적 관리를 위한 WinCE 단말기 프로그램 개발
+- 역할 : 프로그램 설계, FE 개발
+- UUID 생성(Android_id/IDFV)
+- Shared Preference
+- http
 
 ---
 
 <div class="hyde tags skills">
-    <a class="hyde tag">C#</a>
-    <a class="hyde tag">.Net Framework</a>
-    <a class="hyde tag">WinCE</a>
-    <a class="hyde tag">Microsoft SQL</a>
+    <a class="hyde tag">Android</a>
+    <a class="hyde tag">IOS</a>
+    <a class="hyde tag">Flutter</a>
+    <a class="hyde tag">kotlin</a>
+    <a class="hyde tag">swift</a>
     <a class="hyde tag">WCF</a>
+    <a class="hyde tag">C#</a>
 </div>
