@@ -13,6 +13,7 @@ date: 2019-06-01 ~ 2019-09-30
 
 <div class="table-wrapper" markdwon="block">
     <img
+         align="center"
     src="/assets/images/projects/출하바코드_검증시스템_스캐너_메인화면.png"
     width="50%"
     height="50%"
