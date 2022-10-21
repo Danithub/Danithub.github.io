@@ -10,7 +10,7 @@ date: 2019-06-01 ~ 2019-09-30
 <div style="text-align: right; color: #aaaab3">2019/06 ~ 2019/09</div>
 
 ---  
-#
+
 
 출력된 바코드에 대한 이상 유무 검증과 드럼 입고/생산/출하 과정 실적 처리를 구현했습니다.
 
@@ -20,7 +20,7 @@ date: 2019-06-01 ~ 2019-09-30
 - 드럼의 입고/생산/출하 실적 관리를 위한 WinCE 단말기 프로그램 개발
 
 ---  
-#
+
 
 <div class="hyde tags skills">
     <a class="hyde tag">C#</a>
@@ -31,7 +31,7 @@ date: 2019-06-01 ~ 2019-09-30
 </div>
 
 ---  
-#
+
 
 <div align="center">
     <img src="/assets/images/projects/출하바코드_검증시스템_스캐너_메인화면.png" width="50%" height="50%"/><img class="hyde page-image" src="/assets/images/projects/출하바코드_검증시스템_PDA_메인화면.png" alt="{{ page.image | split: '.' | first }}" width="20%" height="20%"/>
