@@ -9,15 +9,7 @@ date: 2021-06-01 ~ 2021-09-31
 <div style="font-weight: bold; font-size: 1.5rem">지게차 충돌방지 시스템(PoC)</div>
 <div style="text-align: right; color: #aaaab3">2021-06-01 ~ 2021-09-31</div>
 
----
 
-<img
-    class="hyde page-image"
-    src="/assets/images/projects/지게차_충돌방지_시스템(PoC).png"
-    alt="{{ page.image | split: '.' | first }}"
-    width="50%"
-    height="50%"
-/>
 
 ---
 
@@ -35,3 +27,13 @@ date: 2021-06-01 ~ 2021-09-31
     <a class="hyde tag">.Net Framework</a>
     <a class="hyde tag">Emgu.CV</a>
 </div>
+
+---
+
+<img
+    class="hyde page-image"
+    src="/assets/images/projects/지게차_충돌방지_시스템(PoC).png"
+    alt="{{ page.image | split: '.' | first }}"
+    width="50%"
+    height="50%"
+/>
