@@ -11,41 +11,44 @@ date: 2019-06-01 ~ 2019-09-30
 
 ---
 
-<img
+<div class="table-wrapper" markdwon="block">
+    <img
     class="hyde page-image"
     src="/assets/images/projects/출하바코드_검증시스템_스캐너_메인화면.png"
     alt="{{ page.image | split: '.' | first }}"
     width="50%"
     height="50%"
-/>
-<img
-    class="hyde page-image"
-    src="/assets/images/projects/출하바코드_검증시스템_PDA_메인화면.png"
-    alt="{{ page.image | split: '.' | first }}"
-    width="50%"
-    height="50%"
-/>
-<img
-    class="hyde page-image"
-    src="/assets/images/projects/출하바코드_검증시스템_PDA_실적조회.png"
-    alt="{{ page.image | split: '.' | first }}"
-    width="50%"
-    height="50%"
-/>
-<img
-    class="hyde page-image"
-    src="/assets/images/projects/출하바코드_검증시스템_PDA_라벨검증.png"
-    alt="{{ page.image | split: '.' | first }}"
-    width="50%"
-    height="50%"
-/>
-<img
-    class="hyde page-image"
-    src="/assets/images/projects/출하바코드_검증시스템_PDA_데이터조회.png"
-    alt="{{ page.image | split: '.' | first }}"
-    width="50%"
-    height="50%"
-/>
+    />
+    <img
+        class="hyde page-image"
+        src="/assets/images/projects/출하바코드_검증시스템_PDA_메인화면.png"
+        alt="{{ page.image | split: '.' | first }}"
+        width="50%"
+        height="50%"
+    />
+    <img
+        class="hyde page-image"
+        src="/assets/images/projects/출하바코드_검증시스템_PDA_실적조회.png"
+        alt="{{ page.image | split: '.' | first }}"
+        width="50%"
+        height="50%"
+    />
+    <img
+        class="hyde page-image"
+        src="/assets/images/projects/출하바코드_검증시스템_PDA_라벨검증.png"
+        alt="{{ page.image | split: '.' | first }}"
+        width="50%"
+        height="50%"
+    />
+    <img
+        class="hyde page-image"
+        src="/assets/images/projects/출하바코드_검증시스템_PDA_데이터조회.png"
+        alt="{{ page.image | split: '.' | first }}"
+        width="50%"
+        height="50%"
+    />
+</div>
+
 
 출력된 바코드에 대한 이상 유무 검증과 드럼 입고/생산/출하 과정 실적 처리를 구현했습니다.
 
