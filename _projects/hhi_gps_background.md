@@ -19,6 +19,7 @@ Anroid/ios 크로스 플랫폼 개발을 위해 Flutter를 사용하여 개발�
 - UUID 생성(Android_id/IDFV)
 - Shared Preference
 - http
+- geolocator
 
 ---
 
