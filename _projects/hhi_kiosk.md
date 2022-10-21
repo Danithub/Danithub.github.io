@@ -33,7 +33,42 @@ date: 2021-10-01 ~ 2022-03-31
 
 <img
     class="hyde page-image"
-    src="/assets/images/projects/내업_실적_수집_체계_구축.png"
+    src="/assets/images/projects/내업_실적_수집_체계_구축_메인화면.png"
+    alt="{{ page.image | split: '.' | first }}"
+    width="50%"
+    height="50%"
+/>
+<img
+    class="hyde page-image"
+    src="/assets/images/projects/내업_실적_수집_체계_구축_메뉴화면.pngg"
+    alt="{{ page.image | split: '.' | first }}"
+    width="50%"
+    height="50%"
+/>
+<img
+    class="hyde page-image"
+    src="/assets/images/projects/내업_실적_수집_체계_구축_실적조회.png"
+    alt="{{ page.image | split: '.' | first }}"
+    width="50%"
+    height="50%"
+/>
+<img
+    class="hyde page-image"
+    src="/assets/images/projects/내업_실적_수집_체계_구축_실적수집.png"
+    alt="{{ page.image | split: '.' | first }}"
+    width="50%"
+    height="50%"
+/>
+<img
+    class="hyde page-image"
+    src="/assets/images/projects/내업_실적_수집_체계_구축_라벨프린터연동.png"
+    alt="{{ page.image | split: '.' | first }}"
+    width="50%"
+    height="50%"
+/>
+<img
+    class="hyde page-image"
+    src="/assets/images/projects/내업_실적_수집_체계_구축_pdf뷰어.png"
     alt="{{ page.image | split: '.' | first }}"
     width="50%"
     height="50%"
