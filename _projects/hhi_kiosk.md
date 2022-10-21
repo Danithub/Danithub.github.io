@@ -40,7 +40,7 @@ date: 2021-10-01 ~ 2022-03-31
 />
 <img
     class="hyde page-image"
-    src="/assets/images/projects/내업_실적_수집_체계_구축_메뉴화면.pngg"
+    src="/assets/images/projects/내업_실적_수집_체계_구축_메뉴화면.png"
     alt="{{ page.image | split: '.' | first }}"
     width="50%"
     height="50%"
