@@ -14,7 +14,7 @@ date: 2022-07-01 ~ 2021-10-31
 
 OCR OpenAPI를 활용하여 문서 OCR 프로그램을 개발하였습니다.
 
-- 역할 : FE개발
+- 역할 : 스캐너 프로그램 개발(FE, BE)
 - Panasonic Scanner SDK 활용
 
 ---
