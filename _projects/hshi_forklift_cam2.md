@@ -1,13 +1,13 @@
 ---
-title: 지게차 충돌방지 시스템
+title: 지게차 충돌방지 시스템(PoC)
 description: 현대삼호중공업
 timage: 지게차_충돌방지_시스템(PoC).png
 image: 지게차_충돌방지_시스템(PoC).png
 date: 2021-06-01 ~ 2021-09-31
 ---
 
-<div style="font-weight: bold; font-size: 1.5rem">지게차 충돌방지 시스템</div>
-<div style="text-align: right; color: #aaaab3">2019-05-01 ~ 2019-05-31</div>
+<div style="font-weight: bold; font-size: 1.5rem">지게차 충돌방지 시스템(PoC)</div>
+<div style="text-align: right; color: #aaaab3">2021-06-01 ~ 2021-09-31</div>
 
 ---
 
@@ -21,19 +21,17 @@ date: 2021-06-01 ~ 2021-09-31
 
 ---
 
-출력된 바코드에 대한 이상 유무 검증과 드럼 입고/생산/출하 과정 실적 처리를 구현했습니다.
+네트워크 카메라와 거리센서를 활용하여 지게차 충돌방지 시스템을 개발하였습니다.
 
-- 역할 : WinForm, WinCE 프로그램 FE개발
+- 역할 : 솔루션 개발
 - Panasonic Scanner SDK 활용
-- 이미지 처리를 통한 바코드 이상 유무 확인
-- 드럼의 입고/생산/출하 실적 관리를 위한 WinCE 단말기 프로그램 개발
+- Emgu.CV OpenAPI를 활용한 카메라 화면 연동
+- mqtt를 활용한 센서 연동
 
 ---
 
 <div class="hyde tags skills">
     <a class="hyde tag">C#</a>
     <a class="hyde tag">.Net Framework</a>
-    <a class="hyde tag">WinCE</a>
-    <a class="hyde tag">Microsoft SQL</a>
-    <a class="hyde tag">WCF</a>
+    <a class="hyde tag">Emgu.CV</a>
 </div>
