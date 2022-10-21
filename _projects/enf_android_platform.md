@@ -12,12 +12,11 @@ date: 2022-06-01 ~ 2021-08-31
 ---
 
 
-출력된 바코드에 대한 이상 유무 검증과 드럼 입고/생산/출하 과정 실적 처리를 구현했습니다.
+WinCE 플랫폼으로 구현된 프로그램을 Android 플랫폼으로 컨버전하는 프로젝트입니다.
 
-- 역할 : 종합 테스트, 유지보수
-- Panasonic Scanner SDK 활용
-- 이미지 처리를 통한 바코드 이상 유무 확인
-- 드럼의 입고/생산/출하 실적 관리를 위한 WinCE 단말기 프로그램 개발
+- 역할 : Backend 개발, 유지보수
+- Retrofit2를 활용한 http통신
+- WCF를 활용한 API 개발
 
 ---
 
@@ -26,6 +25,7 @@ date: 2022-06-01 ~ 2021-08-31
     <a class="hyde tag">java</a>
     <a class="hyde tag">WCF</a>
     <a class="hyde tag">C#</a>
+    <a class="hyde tag">Microsoft SQL</a>
 </div>
 
 ---
