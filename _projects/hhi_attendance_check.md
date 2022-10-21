@@ -11,16 +11,6 @@ date: 2022-09-01 ~ 2022-10-31
 
 ---
 
-<img
-    class="hyde page-image"
-    src="/assets/images/projects/교육대상자_출결_인증_시스템.png"
-    alt="{{ page.image | split: '.' | first }}"
-    width="50%"
-    height="50%"
-/>
-
----
-
 Anroid/ios 크로스 플랫폼 개발을 위해 Flutter를 사용하여 개발했습니다.
 
 - 역할 : 프로그램 설계, FE 개발
@@ -39,3 +29,13 @@ Anroid/ios 크로스 플랫폼 개발을 위해 Flutter를 사용하여 개발�
     <a class="hyde tag">WCF</a>
     <a class="hyde tag">C#</a>
 </div>
+
+---
+
+<img
+    class="hyde page-image"
+    src="/assets/images/projects/교육대상자_출결_인증_시스템.png"
+    alt="{{ page.image | split: '.' | first }}"
+    width="20%"
+    height="20%"
+/>
