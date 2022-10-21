@@ -15,7 +15,7 @@ date: 2019-05-01 ~ 2019-05-31
 
 iTextSharp OpenAPI를 활용하여 PDF 내용을 추출하는 프로그램을 개발하였습니다.
 
-- 역할 : 1인 개발
+- 역할 : 솔루션 개발
 - iTextSharp OpenAPI 활용
 
 ---
