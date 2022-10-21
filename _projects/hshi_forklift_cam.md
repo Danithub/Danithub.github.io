@@ -4,12 +4,11 @@ description: 현대삼호중공업
 timage: 지게차_전후방_카메라_시스템_개선.png
 image: 지게차_전후방_카메라_시스템_개선.png
 date: 2021-03-01 ~ 2021-05-31
+
 ---
 
 <div style="font-weight: bold; font-size: 1.5rem">지게차 전후방 카메라 시스템 개선</div>
 <div style="text-align: right; color: #aaaab3">2021-03-01 ~ 2021-05-31</div>
-
-
 
 ---
 
