@@ -13,7 +13,7 @@ date: 2019-09-01 ~ 2020-03-31
 
 AR마커를 활용하여 강재 조회 및 실적 처리 자동화 프로그램을 개발하였습니다.
 
-- 역할 : FE개발
+- 역할 : HW설계, 솔루션 개발, DB연동
 - Panasonic Network Camera SDK 활용
 - Emgu.CV를 활용한 이미지 전처리
 - OpenAPI를 활용한 AR마커 인식
