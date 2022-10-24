@@ -17,6 +17,7 @@ AR마커를 활용하여 강재 조회 및 실적 처리 자동화 프로그램�
 - Panasonic Network Camera SDK 활용
 - Emgu.CV를 활용한 이미지 전처리
 - OpenAPI를 활용한 AR마커 인식
+- '강재 정보 처리 장치 및 그 방법' 특허 출원
 
 ---
 
