@@ -6,6 +6,10 @@
 #   url: {homepage_of_author}
 # -------------------------------------
 
+DAN:
+  name: DAN
+  url: https://github.com/Danithub
+
 cotes:
   name: Cotes Chung
   twitter: cotes2020

@@ -4,15 +4,23 @@ icon: fas fa-info-circle
 order: 4
 ---
 
+<style>
+  /* 한글이 단어(띄어쓰기) 단위로 줄바꿈되도록 해 어색한 끊김을 방지 */
+  .content p,
+  .content li {
+    word-break: keep-all;
+    overflow-wrap: break-word;
+  }
+</style>
+
 ## DAN
 
 > Cloud · DevOps · Full-Stack Developer
 
-서비스 설계부터 배포 자동화, 프론트엔드와 백엔드까지
-전 구간을 아우르며 **Cloud Native · DevOps · Full-Stack** 세 축으로 커리어를 쌓아가는 개발자입니다.
+서비스 설계부터 배포 자동화, 프론트엔드와 백엔드까지 전 구간을 아우르며
+**Cloud Native · DevOps · Full-Stack** 세 축으로 커리어를 쌓아가는 개발자입니다.
 
-온프레미스에서 클라우드로 넘어가는 전환기 한가운데에서,
-지금은 **AI를 페어 프로그래머처럼** 활용해 레거시 애플리케이션과 인프라를 현대화하고 있습니다.
+온프레미스에서 클라우드로 넘어가는 전환기 한가운데에서, 지금은 **AI를 페어 프로그래머처럼** 활용해 레거시 애플리케이션과 인프라를 현대화하고 있습니다.
 코드를 직접 찍어내는 대신, 문제를 정의하고 결과를 검증하는 역할에 집중합니다.
 
 ## 🧭 What I'm Building Toward
