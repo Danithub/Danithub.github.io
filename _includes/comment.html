@@ -1,8 +1,5 @@
-<script
-  src="https://utteranc.es/client.js"
-  repo="{{ site.comments.repo }}"
-  issue-term="{{ site.comments.issue-term }}"
-  theme="preferred-color-scheme"
-  crossorigin="anonymous"
-  async
-></script>
+<!-- The comments switcher -->
+{% if page.comments and site.comments.provider %}
+  {% capture path %}comments/{{ site.comments.provider }}.html{% endcapture %}
+  {% include {{ path }} %}
+{% endif %}
