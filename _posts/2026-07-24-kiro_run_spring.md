@@ -16,9 +16,12 @@ author: DAN
 3. 사전 준비물
 4. 실행 방법 1 — Kiro 통합 터미널에서 Gradle로 실행
 5. 실행 방법 2 — Java 확장의 Run 버튼 사용
-6. 기동 확인
-7. 자주 만나는 문제
-8. 마치며
+6. 실행 방법 3 — Gradle 사이드바에서 실행
+7. 기동 확인
+8. 자주 만나는 문제
+9. 부록 — Kiro 프롬프트 초안
+10. 마치며
+
 
 ## 1. 들어가며
 
@@ -191,7 +194,23 @@ spring:
 
 > 참고: 터미널 `-Pprofile=local`(Gradle 프로퍼티)과 `--spring.profiles.active=local`(Spring 프로파일)은 성격이 다릅니다. 전자는 "빌드 시 의존성 해석"에, 후자는 "런타임 설정 파일 선택"에 영향을 줍니다. 로컬 개발에선 둘 다 `local`로 맞춰두면 헷갈릴 일이 없습니다.
 
-## 6. 기동 확인
+## 6. 실행 방법 3 — Gradle 사이드바에서 실행
+
+`Extension Pack for Java`를 설치하면 함께 들어오는 `Gradle for Java` 확장이 좌측 액티비티 바에 **Gradle 전용 사이드바**(코끼리 아이콘)를 추가합니다. 명령어를 칠 필요 없이, 트리에서 태스크를 클릭해 실행할 수 있는 방법입니다.
+
+1. 좌측 사이드바에서 **Gradle** 아이콘을 클릭합니다.
+2. 프로젝트 트리를 펼치면 태스크가 그룹별로 정리돼 있습니다.
+3. `Tasks` > `application` > `bootRun`을 찾습니다.
+4. 항목 위에 마우스를 올리면 나타나는 **실행(▶) 버튼**을 누르거나, 항목을 우클릭해 `Run Task`를 선택합니다.
+
+실행하면 내부적으로 `./gradlew bootRun`이 돌아가고, 결과는 Kiro 터미널 패널에 그대로 출력됩니다.
+
+> 주의: 이 방식은 **프로파일 인자(`-Pprofile=local`) 없이** 기본값으로 태스크를 실행합니다. 이 프로젝트는 `application.yml`의 기본 프로파일이 `local`이라 그대로도 뜨지만, 빌드 시 의존성 해석이 프로파일에 따라 달라진다는 점(4번 섹션 참고)은 기억해 두세요. `-Pprofile` 값을 반드시 넘겨야 한다면 실행 방법 1(터미널)이 더 확실합니다.
+
+인자를 붙여 실행하고 싶다면, Gradle 사이드바에서 `bootRun`을 우클릭한 뒤 `Run Task with Arguments`(또는 확장 버전에 따라 유사 메뉴)를 선택해 `-Pprofile=local` 같은 인자를 직접 입력할 수 있습니다.
+
+
+## 7. 기동 확인
 
 애플리케이션이 뜨면 프로젝트에 포함된 아웃바운드 API로 바로 확인할 수 있습니다.
 
@@ -207,7 +226,7 @@ curl -X POST http://localhost:8000/inbound/receiveData.do \
   -d '{"senderSystem":"DEVICE-A","dataType":"SENSOR","dataList":[{"deviceId":"D-001","temp":24.5}]}'
 ```
 
-## 7. 자주 만나는 문제
+## 8. 자주 만나는 문제
 
 **Q. `common-module not found` 경고가 뜬다.**
 형제 폴더 구조(`../common-module`)가 맞는지 확인하세요. `settings.gradle` 실행 로그에 어떤 경로를 찾았는지 출력됩니다.
@@ -225,6 +244,75 @@ Gradle 데몬이 옛 JDK를 물고 있을 수 있습니다. `gradle.properties`�
 **Q. Nexus 저장소 인증 오류(dev/stg/prd 프로파일).**
 `build.gradle`이 `NEXUS_USERNAME` / `NEXUS_PASSWORD` 환경변수를 참조합니다. 로컬 개발이라면 굳이 필요 없는 `local` 프로파일을 쓰세요.
 
-## 8. 마치며
+## 9. 부록 — Kiro 프롬프트 초안
 
-Kiro IDE에서 Spring Boot를 실행하는 것 자체는 VS Code와 크게 다르지 않습니다. 핵심은 **전역 환경을 오염시키지 않고 프로젝트 단위로 JDK와 프로파일을 격리하는 설정**을 이해하는 것이었습니다. `gradle.properties`와 `.vscode/settings.json` 두 파일의 역할만 명확히 알면, 여러 JDK가 섞인 환경에서도 깔끔하게 개발할 수 있습니다.
+이 프로젝트를 띄우기까지, Kiro에게 단계별로 요청한 프롬프트를 정리해 둡니다. "환경 분석 → 설정 → 실행" 순서로 대화를 쪼개면 AI가 맥락을 잃지 않고 삽질을 줄여줍니다.
+
+### 1단계 — 시스템/프로젝트 환경 분석
+
+먼저 프로젝트 구조와 실행 조건을 파악시키는 것부터 시작합니다.
+
+```text
+이 워크스페이스가 어떤 프로젝트인지 분석해줘.
+build.gradle, settings.gradle, gradle.properties, application.yml을 읽고
+- Java 버전, Spring Boot 버전, 빌드 도구
+- 멀티모듈 구조와 의존 모듈(common-module) 위치
+- 실행에 필요한 프로파일(local/dev/stg/prd) 차이
+- 기본 포트
+를 정리해줘.
+```
+
+```text
+내 PC에는 JDK 8, 11, 21이 함께 깔려 있어.
+전역 JAVA_HOME은 절대 바꾸지 말고, 이 프로젝트 범위 안에서만
+JDK 21을 쓰려면 어떤 파일을 건드려야 하는지 알려줘.
+```
+
+### 2단계 — 프로젝트 단위 JDK/환경 설정
+
+분석 결과를 바탕으로 실제 설정 파일을 만듭니다.
+
+```text
+전역 환경을 오염시키지 않는 조건으로 아래를 설정해줘.
+- gradle.properties: Gradle 데몬이 D:/tools/jdk-21을 쓰도록
+- .vscode/settings.json: Kiro 통합 터미널과 Java 확장 모두 JDK 21을 인식하도록
+  (terminal.integrated.env.windows, java.jdt.ls.java.home,
+   java.import.gradle.java.home, java.configuration.runtimes)
+경로는 내 환경(D:\tools\jdk-21)에 맞춰줘.
+```
+
+```text
+common-module은 형제 폴더(../common-module)에 있어.
+settings.gradle이 로컬에서는 형제 폴더를, CI에서는 내부 폴더를
+자동으로 찾도록 되어 있는지 확인해줘.
+```
+
+### 3단계 — 실행 및 기동 확인
+
+설정이 끝나면 실제로 띄우고 검증합니다.
+
+```text
+통합 터미널에서 java -version이 21로 잡히는지 먼저 확인하고,
+local 프로파일로 애플리케이션을 실행하는 명령을 알려줘.
+```
+
+```text
+./gradlew bootRun -Pprofile=local 로 실행했더니 8000 포트에 떴어.
+outbound/inbound API로 정상 기동을 확인하는 방법(curl 예시 포함)을 정리해줘.
+```
+
+### 문제 발생 시 — 디버깅 프롬프트
+
+막혔을 때는 증상을 그대로 던지는 게 가장 빠릅니다.
+
+```text
+UnsupportedClassVersionError가 떠. Gradle 데몬이 옛 JDK를
+물고 있는 것 같은데, 원인이랑 해결 순서를 알려줘.
+```
+
+```text
+터미널에서 java -version이 여전히 21이 아니야.
+.vscode/settings.json은 저장했는데 왜 반영이 안 되는지 짚어줘.
+```
+
+> 팁: 한 프롬프트에 "분석 + 설정 + 실행"을 몰아서 요청하기보다, 위처럼 단계를 나눠 요청하면 각 단계의 결과를 눈으로 확인하며 진행할 수 있어 훨씬 안정적입니다.
