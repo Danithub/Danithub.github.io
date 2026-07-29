@@ -5,8 +5,6 @@ tags: [PanOcean, kiro, Spring Boot]
 author: DAN
 ---
 
-# Kiro IDE에서 Spring Boot 프로젝트 실행하기
-
 > Spring Boot 3.5.5 + Java 21 + Gradle 멀티모듈 프로젝트를 Kiro IDE에서 띄우기까지의 실전 기록
 
 ## 목차
