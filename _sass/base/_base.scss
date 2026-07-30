@@ -137,6 +137,7 @@ main {
 .content {
   font-size: 1.08rem;
   margin-top: 2rem;
+  word-break: keep-all;
   overflow-wrap: break-word;
 
   @include bp.xl {
