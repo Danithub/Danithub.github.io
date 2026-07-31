@@ -1,6 +1,7 @@
 ---
 title: Kiro IDE에서 Spring Boot 프로젝트 실행하기
 date: 2026-07-24
+categories: [Kiro, Setup]
 tags: [PanOcean, kiro, Spring Boot]
 author: DAN
 ---

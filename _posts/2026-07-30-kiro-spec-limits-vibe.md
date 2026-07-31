@@ -1,6 +1,7 @@
 ---
 title: Kiro Spec 워크플로우의 한계와 Vibe로 우회하기
 date: 2026-07-30
+categories: [Kiro, Workflow]
 tags: [kiro, workflow, spec, vibe]
 author: DAN
 ---
@@ -82,6 +83,22 @@ Kiro의 Spec 모드는 하나의 기능을 requirements → design → tasks 세
 기준은 빼고 개요 수준으로만 생성하라"고 명시해 첫 draft 분량을 눌러두고, 이후
 Refine으로 확장합니다.
 
+### 3-4. 이 흐름을 스티어링으로 고정하기
+
+위 우회법을 매번 손으로 챙기는 대신, default(Vibe) 세션이 Spec처럼 "작업 전
+문답 → 작업 → 산출물 문서화"를 따르도록 만드는 스티어링 규칙을 만들어
+올려뒀습니다.
+
+- [default-as-spec-workflow.md](https://github.com/Danithub/awesome-kiro/blob/main/.kiro/steering/default-as-spec-workflow.md)
+
+핵심은 세션 타입을 바꾸는 게 아니라(그건 IDE 레벨이라 불가능합니다) default
+세션이 Spec처럼 **행동**하도록 강제하는 데 있습니다. 코드 변경 작업이면 먼저
+요구사항을 문답으로 확정하고, 작업 후 `.kiro/specs/{spec명}/`에
+`requirements.md`(요구사항 + 문답 결과)와 `changes.md`(변경 파일 + 상세 + 검증)를
+남깁니다. 단순 질의나 오타 수정 같은 사소한 편집엔 적용하지 않아 문서 오염도
+줄였습니다. 무거운 글쓰기는 Vibe에서 통제하고 구조와 추적만 남긴다는 이 글의
+분업을, 매번 반복하지 않도록 규칙으로 굳힌 셈입니다.
+
 ## 4. 마치며
 
 정리하면, 1.0의 spec 워크플로우는 위임/병렬 구조로 바뀌면서 예전의 fallback이
@@ -96,3 +113,4 @@ Refine으로 확장합니다.
 - "나눠 써라"는 스티어링은 일반 쓰기 경로만 통제해, spec 내부 문서 생성에는 잘 걸리지 않습니다.
 - 우회법: requirements를 Vibe에서 완성해 파일로 주입, 태스크는 하나씩 실행, 부득이하면 첫 draft를 개요 수준으로 짧게 생성 후 Refine.
 - 핵심은 "무거운 글쓰기는 Vibe, 구조와 추적은 Spec"이라는 분업입니다.
+- 이 분업을 매번 손으로 챙기지 않도록 [default-as-spec-workflow.md](https://github.com/Danithub/awesome-kiro/blob/main/.kiro/steering/default-as-spec-workflow.md) 스티어링으로 고정해 두면, default 세션이 문답 → 작업 → 문서화를 자동으로 따릅니다.

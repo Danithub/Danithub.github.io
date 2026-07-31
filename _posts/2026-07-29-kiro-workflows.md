@@ -1,6 +1,7 @@
 ---
 title: Kiro 워크플로 총정리 — Default / Spec / Plan / Bug Fix / Quick Spec
 date: 2026-07-29
+categories: [Kiro, Workflow]
 tags: [kiro, workflow, spec]
 author: DAN
 ---
