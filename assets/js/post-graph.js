@@ -1,5 +1,5 @@
 /*
- * post-graph.js — Obsidian 스타일 Force-Directed Graph 렌더러.
+ * post-graph.js — Force-Directed Graph 렌더러.
  *
  * 이 파일은 정적 자산(assets)으로 그대로 제공되며 HTML 압축(compress_html)의
  * 영향을 받지 않으므로, 인라인 스크립트에서 발생하던 "// 주석이 한 줄로 합쳐져

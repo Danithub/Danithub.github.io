@@ -1,0 +1,61 @@
+{% comment %}
+  graph-widget.html — 우측 사이드바 패널 상단에 표시되는 그래프 축소판.
+
+  - 렌더링 로직은 /assets/js/graph-widget.js(정적 파일)에 있습니다.
+    인라인 스크립트는 compress_html로 한 줄로 합쳐질 때 깨질 수 있어 분리했습니다.
+  - 우상단 확대 버튼(fa-expand)은 전체 그래프 페이지(/graph/)로 이동합니다.
+{% endcomment %}
+
+<section id="graph-widget-section" class="graph-widget-section">
+  <div class="d-flex justify-content-between align-items-center">
+    <h2 class="panel-heading mb-0">그래프</h2>
+    <a
+      class="graph-widget__expand"
+      href="{{ '/graph/' | relative_url }}"
+      aria-label="그래프 전체 화면으로 보기"
+      title="크게 보기"
+    >
+      <i class="fas fa-expand"></i>
+    </a>
+  </div>
+
+  <div
+    id="graph-widget"
+    class="graph-widget mt-2"
+    data-graph-src="{{ '/assets/js/graph.json' | relative_url }}"
+  ></div>
+</section>
+
+<style>
+  .graph-widget-section {
+    margin-bottom: 1.5rem;
+  }
+
+  .graph-widget__expand {
+    color: var(--text-muted-color, #888);
+    font-size: 0.9rem;
+    line-height: 1;
+    padding: 0.25rem;
+    border-radius: 4px;
+    transition: color 0.15s ease;
+  }
+
+  .graph-widget__expand:hover {
+    color: var(--link-color, #1d7dfa);
+  }
+
+  .graph-widget {
+    position: relative;
+    width: 100%;
+    height: 180px;
+    border: 1px solid var(--border-color, rgba(128, 128, 128, 0.25));
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .graph-widget canvas {
+    display: block;
+  }
+</style>
+
+<script src="{{ '/assets/js/graph-widget.js' | relative_url }}"></script>
