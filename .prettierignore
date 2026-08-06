@@ -1,0 +1,9 @@
+# Prettier가 Liquid 템플릿을 HTML로 파싱하면서 `{%- if a == b -%}` 같은
+# 조건문의 `==` 연산자를 깨뜨리는 문제가 있어, Liquid/Jekyll 템플릿은
+# 포매팅 대상에서 제외합니다.
+_layouts/
+_includes/
+_tabs/
+*.html
+assets/**/*.json
+_config.yml
