@@ -70,9 +70,9 @@
       })
       .linkWidth(1)
       .backgroundColor('rgba(0,0,0,0)')
-      .enableNodeDrag(false)
-      .enableZoomInteraction(false)
-      .enablePanInteraction(false)
+      .enableNodeDrag(true)
+      .enableZoomInteraction(true)
+      .enablePanInteraction(true)
       .onNodeClick(function (node) {
         if (node && node.id) {
           window.location.href = node.id;
@@ -83,9 +83,23 @@
       el.style.cursor = node ? 'pointer' : null;
     });
 
+    // 사용자가 직접 확대(휠)/이동/드래그를 시작하면 자동 맞춤을 멈춰
+    // 조작 중 화면이 원위치로 튕기지 않도록 한다.
+    // (force-graph의 onZoom은 프로그램적 zoomToFit에도 발동하므로,
+    //  실제 입력 이벤트로 사용자 조작만 감지한다.)
+    var userInteracted = false;
+    function markInteracted() {
+      userInteracted = true;
+    }
+    el.addEventListener('wheel', markInteracted, { passive: true });
+    el.addEventListener('pointerdown', markInteracted);
+
     function resize() {
       Graph.width(el.clientWidth).height(el.clientHeight);
-      Graph.zoomToFit(0, 8);
+      // 아직 사용자가 조작하지 않았을 때만 화면에 맞춰 정렬한다.
+      if (!userInteracted) {
+        Graph.zoomToFit(0, 8);
+      }
     }
     resize();
 
@@ -95,9 +109,11 @@
       window.addEventListener('resize', resize);
     }
 
-    // 시뮬레이션이 안정되면 보기 좋게 자동 맞춤
+    // 시뮬레이션이 처음 안정될 때 한 번만 보기 좋게 자동 맞춤한다.
     Graph.onEngineStop(function () {
-      Graph.zoomToFit(400, 8);
+      if (!userInteracted) {
+        Graph.zoomToFit(400, 8);
+      }
     });
   }
 
