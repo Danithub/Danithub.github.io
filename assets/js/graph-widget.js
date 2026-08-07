@@ -11,7 +11,8 @@
  *   별도의 확대 버튼은 전체 그래프 페이지로 이동합니다(HTML 링크로 처리).
  */
 (function () {
-  var LIB_SRC = 'https://cdn.jsdelivr.net/npm/force-graph@1';
+  // 기본값. 실제 경로는 #graph-widget[data-lib-src]에서 읽어 baseurl을 반영한다.
+  var LIB_SRC = '/assets/js/force-graph.min.js';
 
   function accentColor() {
     var styles = getComputedStyle(document.body);
@@ -72,8 +73,8 @@
       .linkWidth(1)
       .backgroundColor('rgba(0,0,0,0)')
       .enableNodeDrag(true)
-      // 휠 줌은 아래에서 커서 기준으로 직접 처리하므로 내장 줌은 끈다.
-      .enableZoomInteraction(false)
+      // 휠 줌/이동은 force-graph 내장 상호작용(커서 기준 확대)을 그대로 사용한다.
+      .enableZoomInteraction(true)
       .enablePanInteraction(true)
       .onNodeClick(function (node) {
         if (node && node.id) {
@@ -92,48 +93,9 @@
       userInteracted = true;
     }
     el.addEventListener('pointerdown', markInteracted);
-
-    // 커서 기준 확대/축소: 내장 휠 줌은 이 환경에서 커서 위치를 무시하고
-    // 특정 지점 기준으로만 동작하므로, 좌표 변환 API로 직접 구현한다.
-    // 커서 아래의 그래프 지점이 확대/축소 후에도 커서 위치에 그대로 남도록
-    // 줌 배율과 중심(centerAt)을 함께 보정한다.
-    el.addEventListener(
-      'wheel',
-      function (ev) {
-        ev.preventDefault();
-        markInteracted();
-
-        // 실제 캔버스 기준의 커서 좌표(테두리 오프셋까지 정확히 반영)
-        var canvas = el.querySelector('canvas');
-        var rect = (canvas || el).getBoundingClientRect();
-        var mx = ev.clientX - rect.left;
-        var my = ev.clientY - rect.top;
-        var w = rect.width;
-        var h = rect.height;
-
-        // 줌 전, 커서 아래에 있는 그래프 좌표
-        var gp = Graph.screen2GraphCoords(mx, my);
-        if (!gp) {
-          return;
-        }
-
-        var oldK = Graph.zoom();
-        // deltaY > 0(아래로 스크롤) → 축소, < 0 → 확대
-        var factor = Math.exp(-ev.deltaY * 0.0015);
-        var newK = Math.max(0.05, Math.min(80, oldK * factor));
-        if (newK === oldK) {
-          return;
-        }
-
-        Graph.zoom(newK);
-        // gp가 새 배율에서도 (mx, my)에 오도록 뷰 중심을 재계산한다.
-        //   screen = viewportCenter + (graph - center) * k
-        var cx = gp.x - (mx - w / 2) / newK;
-        var cy = gp.y - (my - h / 2) / newK;
-        Graph.centerAt(cx, cy);
-      },
-      { passive: false }
-    );
+    // 휠 확대/축소는 내장 줌이 처리한다. 여기서는 자동 맞춤이 다시 끼어들지
+    // 않도록 "사용자가 조작했다"는 표시만 남긴다(줌 계산은 하지 않음).
+    el.addEventListener('wheel', markInteracted, { passive: true });
 
     function resize() {
       Graph.width(el.clientWidth).height(el.clientHeight);
@@ -156,6 +118,24 @@
         Graph.zoomToFit(400, 8);
       }
     });
+
+    // 로드 타이밍(캐시/백그라운드 탭 throttling) 보정: 여러 시점에 재정렬.
+    [100, 400, 1000].forEach(function (t) {
+      setTimeout(resize, t);
+    });
+
+    // 탭이 다시 보이거나 창에 포커스가 돌아올 때 재정렬(관측된 "정답" 트리거).
+    document.addEventListener('visibilitychange', function () {
+      if (document.visibilityState === 'visible') {
+        setTimeout(resize, 50);
+      }
+    });
+    window.addEventListener('focus', function () {
+      setTimeout(resize, 50);
+    });
+    window.addEventListener('pageshow', function () {
+      setTimeout(resize, 50);
+    });
   }
 
   function init() {
@@ -164,6 +144,7 @@
       return;
     }
 
+    LIB_SRC = el.getAttribute('data-lib-src') || LIB_SRC;
     var url = el.getAttribute('data-graph-src') || '/assets/js/graph.json';
 
     fetch(url)
