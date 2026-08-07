@@ -5,7 +5,8 @@
  *   (사이드바는 대부분의 페이지에 나타나므로, 필요할 때만 CDN을 불러
  *    전역 성능 부담을 줄입니다.)
  * - graph.json을 fetch해 작은 프리뷰 그래프를 렌더링합니다.
- * - 미니 그래프는 확대/이동 조작을 끄고 자동 맞춤(zoomToFit)만 합니다.
+ * - 확대(휠, 커서 기준)/이동(드래그)/노드 드래그를 지원하며,
+ *   사용자가 조작하기 전까지는 자동 맞춤(zoomToFit)으로 정렬합니다.
  * - 노드 클릭 시 node.id(포스트 URL)로 이동하고,
  *   별도의 확대 버튼은 전체 그래프 페이지로 이동합니다(HTML 링크로 처리).
  */
@@ -71,7 +72,8 @@
       .linkWidth(1)
       .backgroundColor('rgba(0,0,0,0)')
       .enableNodeDrag(true)
-      .enableZoomInteraction(true)
+      // 휠 줌은 아래에서 커서 기준으로 직접 처리하므로 내장 줌은 끈다.
+      .enableZoomInteraction(false)
       .enablePanInteraction(true)
       .onNodeClick(function (node) {
         if (node && node.id) {
@@ -85,14 +87,53 @@
 
     // 사용자가 직접 확대(휠)/이동/드래그를 시작하면 자동 맞춤을 멈춰
     // 조작 중 화면이 원위치로 튕기지 않도록 한다.
-    // (force-graph의 onZoom은 프로그램적 zoomToFit에도 발동하므로,
-    //  실제 입력 이벤트로 사용자 조작만 감지한다.)
     var userInteracted = false;
     function markInteracted() {
       userInteracted = true;
     }
-    el.addEventListener('wheel', markInteracted, { passive: true });
     el.addEventListener('pointerdown', markInteracted);
+
+    // 커서 기준 확대/축소: 내장 휠 줌은 이 환경에서 커서 위치를 무시하고
+    // 특정 지점 기준으로만 동작하므로, 좌표 변환 API로 직접 구현한다.
+    // 커서 아래의 그래프 지점이 확대/축소 후에도 커서 위치에 그대로 남도록
+    // 줌 배율과 중심(centerAt)을 함께 보정한다.
+    el.addEventListener(
+      'wheel',
+      function (ev) {
+        ev.preventDefault();
+        markInteracted();
+
+        // 실제 캔버스 기준의 커서 좌표(테두리 오프셋까지 정확히 반영)
+        var canvas = el.querySelector('canvas');
+        var rect = (canvas || el).getBoundingClientRect();
+        var mx = ev.clientX - rect.left;
+        var my = ev.clientY - rect.top;
+        var w = rect.width;
+        var h = rect.height;
+
+        // 줌 전, 커서 아래에 있는 그래프 좌표
+        var gp = Graph.screen2GraphCoords(mx, my);
+        if (!gp) {
+          return;
+        }
+
+        var oldK = Graph.zoom();
+        // deltaY > 0(아래로 스크롤) → 축소, < 0 → 확대
+        var factor = Math.exp(-ev.deltaY * 0.0015);
+        var newK = Math.max(0.05, Math.min(80, oldK * factor));
+        if (newK === oldK) {
+          return;
+        }
+
+        Graph.zoom(newK);
+        // gp가 새 배율에서도 (mx, my)에 오도록 뷰 중심을 재계산한다.
+        //   screen = viewportCenter + (graph - center) * k
+        var cx = gp.x - (mx - w / 2) / newK;
+        var cy = gp.y - (my - h / 2) / newK;
+        Graph.centerAt(cx, cy);
+      },
+      { passive: false }
+    );
 
     function resize() {
       Graph.width(el.clientWidth).height(el.clientHeight);
