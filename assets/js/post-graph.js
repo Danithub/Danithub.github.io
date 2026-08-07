@@ -86,9 +86,26 @@
       container.style.cursor = node ? 'pointer' : null;
     });
 
-    // 컨테이너 크기에 맞춰 반응형 리사이즈
+    // 사용자가 직접 확대/이동/드래그를 시작하면 자동 정렬을 멈춘다.
+    var userInteracted = false;
+    function markInteracted() {
+      userInteracted = true;
+    }
+    container.addEventListener('pointerdown', markInteracted);
+    container.addEventListener('wheel', markInteracted, { passive: true });
+
+    // 컨테이너 크기에 맞춰 반응형 리사이즈 + 화면에 맞춰 정렬.
+    // 로드 직후에는 캔버스 크기/레이아웃이 아직 확정되지 않아 초기 배치가
+    // 어긋날 수 있으므로, 크기를 갱신하고 (사용자가 아직 조작하지 않았다면)
+    // 전체가 보이도록 다시 맞춘다.
     function resize() {
       Graph.width(container.clientWidth).height(container.clientHeight);
+    }
+    function fit() {
+      resize();
+      if (!userInteracted) {
+        Graph.zoomToFit(300, 20);
+      }
     }
     resize();
 
@@ -97,11 +114,50 @@
     } else {
       window.addEventListener('resize', resize);
     }
+
+    // 시뮬레이션이 안정되면 한 번 맞춘다.
+    Graph.onEngineStop(function () {
+      fit();
+    });
+
+    // 로드 타이밍(캐시/백그라운드 탭 throttling) 보정을 위해 여러 시점에 재정렬.
+    [100, 400, 1000].forEach(function (t) {
+      setTimeout(fit, t);
+    });
+
+    // 탭이 다시 보이거나 창에 포커스가 돌아올 때 재정렬(관측된 "정답" 트리거).
+    document.addEventListener('visibilitychange', function () {
+      if (document.visibilityState === 'visible') {
+        setTimeout(fit, 50);
+      }
+    });
+    window.addEventListener('focus', function () {
+      setTimeout(fit, 50);
+    });
+    window.addEventListener('pageshow', function () {
+      setTimeout(fit, 50);
+    });
   }
 
   function init() {
     var container = document.getElementById('post-graph');
-    if (!container || typeof ForceGraph === 'undefined') {
+    if (!container) {
+      return;
+    }
+
+    // force-graph 스크립트가 아직 평가되지 않았을 수 있으므로(로드 순서/캐시
+    // 타이밍에 따라) ForceGraph가 준비될 때까지 잠깐 재시도한다.
+    if (typeof ForceGraph === 'undefined') {
+      if (init._tries === undefined) {
+        init._tries = 0;
+      }
+      if (init._tries < 100) {
+        init._tries++;
+        setTimeout(init, 50);
+      } else {
+        container.innerHTML =
+          '<div class="post-graph__empty">그래프 라이브러리를 불러오지 못했습니다.</div>';
+      }
       return;
     }
 
