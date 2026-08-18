@@ -17,6 +17,7 @@ author: DAN
 - 처음엔 단위테스트 시나리오 작성 하나만 떠올랐는데, 쓰다 보니 **현대화 작업 곳곳에** 쓸 데가 많았습니다.
 - Oracle에 붙일 땐 **접속 방식(thin / thick)** 을 먼저 확인하세요. thick(OCI)이면 **Oracle Instant Client**가 필요합니다.
 - 설정 파일도 직접 짜지 않고 **Kiro에게 시켜서** 만들었습니다. (에러도 메시지만 그대로 던져서 해결)
+- 결국 **조회 전용 서버를 직접** 만들었고, thin 접속 실패(구형 verifier) → **thick 전환**, 접속 문자열 파싱(SID vs service), Kiro 등록 위치(`.kiro/settings/mcp.json`) 같은 실전 함정을 4장에 정리했습니다.
 - 반드시 **read-only 계정 + 별도 인스턴스**로. 접속 정보와 실제 스키마는 외부에 노출하지 마세요.
 
 ## 목차
@@ -24,7 +25,7 @@ author: DAN
 1. 도입 배경
 2. MCP란?
 3. MCP 활용 사례
-4. Oracle MCP 서버 구성하기
+4. Oracle MCP 서버, 이렇게 붙였습니다
 5. 안전하게 쓰기 위한 원칙
 6. DB 말고 또 어디에 쓸까
 7. 마치며
@@ -212,118 +213,185 @@ AI에게 증상을 설명하면 관련 데이터를 조회해
 > **AI가 우리 시스템의 실제 상태를 근거로 판단한다**는 게 핵심입니다.
 {: .prompt-tip }
 
-## 4. Oracle MCP 서버 구성하기
+## 4. Oracle MCP 서버, 이렇게 붙였습니다
 
-이제 실제로 붙이는 방법입니다. Oracle은 붙이기 전에 **접속 방식(thin/thick)** 을
-먼저 정해야 합니다. 여기서 Instant Client 설치 여부가 갈리기 때문입니다.
+여기서부터는 제가 실제로 붙이면서 겪은 걸 시간순으로 풉니다. 결론부터 말하면,
+범용 서버를 그대로 쓰는 대신 **조회(SELECT) 전용을 확실히 보장하는 작은 MCP 서버를
+직접 만들었고**, 그 과정에서 접속 방식(thin/thick), 접속 문자열 파싱, Kiro 등록 위치
+같은 함정을 줄줄이 밟았습니다.
 
-미리 말해두면, 아래 설정을 **제가 직접 손으로 짠 건 아닙니다.** 개발 툴로 쓰는
-**Kiro에게 "이렇게 붙여줘"라고 시켜서** 만들었어요. 그래서 각 단계마다 제가 실제로
-던진 프롬프트를 같이 적어뒀는데, 보시면 알겠지만 딱히 정제된 문장이 아닙니다.
+그리고 이 서버, **제가 직접 손으로 다 짠 건 아닙니다.** 개발 툴로 쓰는
+**Kiro에게 "이렇게 붙여줘"라고 시켜서** 만들었어요. 그래서 중간중간 제가 실제로
+던진 프롬프트도 같이 적어뒀는데, 보시면 알겠지만 딱히 정제된 문장이 아닙니다.
 안 되면 툭 던지고, 에러가 나면 메시지만 그대로 붙여넣는 수준이었어요.
 
-> ⚠️ 단, **접속 정보나 비밀번호는 AI 채팅창에 붙여넣지 마세요.** 접속 정보는
-> 환경변수나 클라이언트의 시크릿 저장소에 두고, 프롬프트에는 "환경변수로 받게 해줘"
+> ⚠️ **접속 정보나 비밀번호는 AI 채팅창에 붙여넣지 마세요.** 그리고 아래 내용도
+> 실제 접속 정보(호스트/포트/SID/계정)는 전부 빼고 재사용 가능한 교훈만 남겼습니다.
+> 접속 정보는 환경변수나 시크릿 저장소에 두고, 프롬프트에는 "환경변수로 받게 해줘"
 > 정도로만 말하면 됩니다.
 {: .prompt-warning }
 
-### 4-1. 접속 방식부터: thin vs thick
+### 4-1. 사전 조사와 스택 결정
 
-Oracle을 붙일 때 제일 먼저 부딪힌 게 **접속 방식**이었습니다.
-Oracle은 크게 두 가지로 붙습니다.
+무작정 붙이기 전에 프로젝트부터 뒤졌습니다.
 
-- **thin 모드** : 순수 드라이버가 TCP로 DB에 직접 접속합니다. **Oracle 클라이언트 설치가 필요 없습니다.**
-- **thick 모드(OCI)** : Oracle 네이티브 라이브러리(OCI)를 거쳐 접속합니다. 이때 **Oracle Instant Client**가 설치돼 있어야 합니다.
+- 프로젝트 설정에서 접속 정보를 찾아 **개발(dev) 프로파일** 기준으로 붙이기로 했습니다.
+- 접속 URL을 보니 앞에 SQL 로깅용 래퍼 접두어(`log4jdbc:`)가 붙어 있었습니다.
+  실제 접속 URL만 남기려면 이 접두어부터 떼야 했어요.
+- URL 끝이 콜론(`...:이름`)이면 **SID**, 슬래시(`.../이름`)면 **service name**입니다.
+  이 구분에 따라 DSN을 Easy Connect가 아니라 커넥트 디스크립터
+  `(CONNECT_DATA=(SID=...))` 형태로 짜야 접속됩니다. 이걸 몰라서 한참 헤맸습니다.
+- 런타임은 Node.js와 Python이 둘 다 깔려 있었습니다. (프로젝트 자체는 Java/Maven)
 
-제가 쓴 건 **Node 기반 MCP 서버**였는데, 내부적으로 `node-oracledb` 드라이버를
-**thick(OCI) 모드**로 쓰더군요. 그래서 붙이기 전에 **Oracle Instant Client**를
-먼저 설치해야 했습니다. "뭔가 Oracle 클라이언트가 필요하다"고 느꼈다면
-십중팔구 이 Instant Client 이야기입니다.
+**스택은 Node.js로** 정했습니다. 이유는 단순합니다.
 
-`node-oracledb`는 버전에 따라 이렇게 갈립니다.
+- `oracledb`가 기본이 thin 모드라 처음엔 Instant Client 없이 될 줄 알았고,
+- 공식 `@modelcontextprotocol/sdk` + `oracledb` **딱 두 패키지만** 설치하면 끝나서
+  개발자별 배포가 간단했거든요.
 
-- **6.x 이상 + thin 모드(기본값)** : Instant Client 없이 바로 접속됩니다.
-- **thick 모드(`oracledb.initOracleClient()` 호출) 또는 6.x 미만** : **Instant Client 필요.**
+(뒤에 나오지만, "thin이라 클라이언트 필요 없겠지"라는 이 판단은 보기 좋게 빗나갑니다.)
 
-즉 Node 서버인데 클라이언트가 필요했다면, 그 서버가 **thick 모드로 동작**한다는
-뜻입니다. (구형 DB 호환이나 특정 기능 때문에 thick을 쓰는 경우가 많습니다.)
+### 4-2. 조회 전용 서버 직접 구현
 
-> 💡 클라이언트 설치가 번거롭다면, thin 모드를 지원하는 서버(node-oracledb 6.x thin,
-> python-oracledb thin, 순수 Java인 SQLcl 등)를 고르는 것도 방법입니다.
-{: .prompt-tip }
+목표가 명확했습니다. **조회(SELECT)만** 되게 하고, 데이터 변경은 원천 차단,
+크리덴셜은 코드에 하드코딩 금지, 각 개발자가 자기 로컬에서 stdio 방식으로 실행.
+그래서 패키지 두 개(`oracledb` + 공식 `@modelcontextprotocol/sdk`)만 쓰는
+작은 서버를 만들고, 도구는 딱 세 개만 노출했습니다.
 
-### 4-2. Windows에 Instant Client 설치하기
+- `run_query(sql)` — SELECT/WITH 단일문만 허용, 결과를 텍스트 표로 반환
+- `list_tables(owner?)` — owner가 없으면 현재 스키마, 있으면 해당 스키마의 테이블 목록
+- `describe_table(table_name, owner?)` — 컬럼명 / 타입 / 길이 / NULL 여부
 
-저는 Windows 환경이라 아래 순서로 준비했습니다.
+SDK도 zod 같은 의존성을 줄이려고 low-level Server API + JSON Schema로 짰고,
+검증 함수는 export하고 `main()`은 직접 실행할 때만 뜨도록 가드해서
+단위 테스트가 가능하게 했습니다.
+
+### 4-3. "읽기 전용"을 계정 권한에만 맡기지 않았다
+
+계정 자체도 read-only지만, **서버 코드에서도 다층으로** 막았습니다.
+계정 권한 하나만 믿기엔 불안했거든요.
+
+- `SELECT` / `WITH`로 시작하는 **단일 문장**만 허용
+- 주석(`--`, `/* */`)을 먼저 제거한 뒤 금지 키워드 차단
+  (INSERT / UPDATE / DELETE / MERGE / DROP / ALTER / CREATE / TRUNCATE /
+  GRANT / REVOKE / COMMIT / ROLLBACK / CALL / BEGIN / DECLARE 등)
+- 세미콜론 다중문 차단 (맨 끝 세미콜론 1개만 허용)
+- 결과 100행 상한, 초과 시 잘림 안내 / 쿼리 타임아웃 30초
+- **로그는 전부 stderr로.** stdio MCP에서 stdout은 JSON-RPC 채널이라
+  거기에 로그를 찍으면 프로토콜이 깨집니다. (초보자가 자주 밟는 지뢰)
+
+주석을 먼저 없애는 게 포인트입니다. `/* update */ SELECT ...`처럼
+주석으로 키워드 검사를 속이는 걸 막으려고요.
+
+### 4-4. 진짜 복병: thin 접속 실패 → thick 전환
+
+여기서 이 글의 최대 걸림돌을 만났습니다. Oracle은 크게 두 방식으로 붙습니다.
+
+- **thin 모드**: 순수 드라이버가 TCP로 DB에 직접 접속. **Oracle 클라이언트 설치 불필요.**
+- **thick 모드(OCI)**: Oracle 네이티브 라이브러리(OCI)를 거쳐 접속. **Oracle Instant Client 필요.**
+
+`node-oracledb`는 6.x부터 thin이 기본이라 "Instant Client 없이 바로 되겠지"
+했는데, 로그인 단계에서 막혔습니다.
+
+```
+NJS-116: password verifier type 0x... is not supported by
+node-oracledb in Thin mode
+```
+
+원인은 코드가 아니라 **DB 계정 설정**이었습니다. 이 계정의 비밀번호 verifier가
+구형이라, 순수 JS(thin) 드라이버가 로그인을 아예 거부한 거죠.
+
+**해결은 thick 모드 전환.** 시스템에 있던 Oracle Instant Client를 찾아 붙이니
+접속됐습니다. Windows 기준으로 제가 밟은 준비 과정은 이랬어요.
 
 1. [Oracle Instant Client](https://www.oracle.com/database/technologies/instant-client/winx64-64-downloads.html)의
-   **Windows x64 Basic 패키지**를 내려받아 압축 해제 (예: `C:\oracle\instantclient_21_13`)
-2. 그 경로를 **시스템 환경변수 `PATH`** 에 추가 (또는 서버 설정에서 라이브러리 경로 지정)
-3. **Microsoft Visual C++ 재배포 패키지** 설치 — Windows용 Instant Client는 이게 없으면
-   DLL 로드에 실패합니다. (제가 여기서 한 번 막혔습니다.)
+   **Windows x64 Basic 패키지**를 받아 압축 해제
+2. 그 경로를 서버 설정(`ORACLE_CLIENT_LIB_DIR`)이나 시스템 `PATH`에 지정
+3. **Microsoft Visual C++ 재배포 패키지** 설치 — 이게 없으면 DLL 로드에 실패합니다
 
-> ⚠️ Windows에서 흔한 오류가 `DPI-1047: Cannot locate a 64-bit Oracle Client library`
-> 입니다. 대부분 **경로가 PATH에 없거나, VC++ 재배포 패키지가 없거나, 32/64비트가
-> 안 맞을 때** 납니다. Node(64비트)와 Instant Client(x64)의 비트 수를 꼭 맞추세요.
-{: .prompt-warning }
+이 과정에서 `DPI-1047: Cannot locate a 64-bit Oracle Client library`도 만났는데,
+저는 뜻을 몰라서 그냥 에러 메시지만 Kiro에게 그대로 던졌습니다.
 
-### 4-3. Kiro로 MCP 설정 만들기
+```
+mcp 붙였는데 이 에러가 나. DPI-1047: Cannot locate a 64-bit Oracle Client library
+```
 
-MCP 클라이언트 설정 파일(`mcpServers` 형태의 JSON)을 직접 편집하는 대신,
-Kiro에게 그냥 말로 시켰습니다. 처음 던진 프롬프트는 이랬어요.
+Kiro가 "Instant Client를 못 찾는 것"이라며 위 (1)~(3)을 순서대로 짚어줬고,
+그대로 하니 붙었습니다. (경로가 PATH에 없거나, VC++ 재배포 패키지가 없거나,
+32/64비트가 안 맞을 때 주로 납니다.)
+
+정리하면 두 에러는 층위가 다릅니다.
+
+- `NJS-116` — thin으론 이 계정에 **로그인 자체가 안 되는** 근본 문제 (→ thick 필수)
+- `DPI-1047` — thick으로 가려는데 **클라이언트를 못 찾는** 문제 (→ 경로/재배포팩)
+
+**결론**: 구형 verifier를 쓰는 DB는 로컬에서 붙이려면 Instant Client(thick)가
+사실상 필수입니다. 그게 싫으면 DBA가 계정 비밀번호를 재설정해 thin 호환
+verifier로 바꿔야 하는데, 이건 별도 협의가 필요합니다. Instant Client 경로는
+환경변수로 넘겼고, **개발자마다 경로가 다르므로 특정 폴더를 팀 공유 설정에
+박아넣지 않았습니다.**
+
+### 4-5. Kiro에 등록하기
+
+설정 파일(`mcpServers` 형태의 JSON)도 직접 편집하는 대신 Kiro에게 말로 시켰습니다.
 
 ```
 Node 기반 Oracle MCP 서버를 우리 프로젝트에 붙이고 싶어.
 Windows 환경이고, 접속 정보는 코드에 박지 말고 환경변수로 받게 mcp 설정 만들어줘.
 ```
 
-그러면 Kiro가 `mcpServers` 블록을 만들어줍니다. 대략 이런 형태였어요.
-(Node 서버라 `npx`로 실행하고, 접속 정보와 Instant Client 경로를 환경변수로 넘깁니다.)
+그러면 대략 이런 형태를 만들어줍니다. (접속 정보와 Instant Client 경로를 환경변수로 넘김)
 
 ```json
 {
   "mcpServers": {
-    "oracle": {
-      "command": "npx",
-      "args": ["-y", "<oracle-mcp-server>"],
+    "oracle-readonly": {
+      "command": "node",
+      "args": ["./.kiro/mcp/oracle-readonly/server.js"],
       "env": {
         "ORACLE_USER": "readonly_user",
         "ORACLE_PASSWORD": "${DB_PW}",
-        "ORACLE_CONNECT_STRING": "db-host:1521/ORCLPDB",
-        "ORACLE_CLIENT_LIB_DIR": "C:\\oracle\\instantclient_21_13"
-      }
+        "ORACLE_DSN": "${DB_DSN}",
+        "ORACLE_CLIENT_LIB_DIR": "${IC_DIR}"
+      },
+      "autoApprove": ["list_tables", "describe_table"]
     }
   }
 }
 ```
 
 - Windows 경로는 JSON에서 역슬래시를 `\\` 로 이스케이프해야 합니다.
-- `ORACLE_CLIENT_LIB_DIR` 대신 Instant Client 경로를 시스템 `PATH`에 넣어두면
-  이 키를 생략할 수 있는 서버도 있습니다.
+- 크리덴셜은 값을 박지 말고 환경변수(`${...}`)로 참조하게 두세요.
 
-### 4-4. 에러 해결도 Kiro와 함께
+그런데 서버는 다 만들었는데, 정작 Kiro에 등록하는 데서 또 걸렸습니다.
 
-한 번에 붙지 않았습니다. 붙이자마자 클라이언트 로그에 이 에러가 떴어요.
+- **파일 위치와 이름**: 루트의 `.mcp.json`이 아니라
+  **`.kiro/settings/mcp.json`**을 읽습니다. 파일명도 점 없는 `mcp.json`이어야
+  하고, `.mcp.json`은 인식되지 않았습니다.
+- **쓰기 권한**: `.kiro/settings/`는 워크스페이스 보안 규칙상 에이전트가
+  직접 쓰지 못합니다. 그래서 가드를 우회하지 않고, 크리덴셜과 경로를 뺀
+  템플릿(`.mcp.json.example`)만 만들어두고 **사용자가 직접 배치**하게 했습니다.
+- **autoApprove 설계**: 부담이 적은 `list_tables`, `describe_table`만 자동 승인하고,
+  `run_query`는 매 호출마다 사용자 승인을 받도록 **의도적으로 제외**했습니다.
 
-```
-DPI-1047: Cannot locate a 64-bit Oracle Client library
-```
+### 4-6. 검증: 가드 단위 테스트 + stdio end-to-end
 
-저는 이게 뭔지 몰라서 그냥 메시지만 그대로 던졌습니다.
+"읽기 전용"을 말로만 주장하지 않으려고 테스트를 붙였습니다.
 
-```
-mcp 서버 붙였는데 이 에러가 나. DPI-1047: Cannot locate a 64-bit Oracle Client library
-```
+- **가드 / URL 파서 단위 테스트**: 허용(SELECT/WITH)과 차단(UPDATE/DELETE/DROP/
+  다중문/PL-SQL) 케이스를 전부 통과하는지 확인
+- **`--test-connection` CLI 모드**: DB 왕복과 표 포맷 확인
+- **MCP 프로토콜(stdio) end-to-end**: 서버를 실제로 띄워 도구 목록 조회,
+  `list_tables` 실데이터, `run_query`, 그리고 UPDATE가 `isError`로 막히는지까지 확인
 
-그랬더니 Kiro가 "이건 Instant Client를 못 찾는 것"이라며,
-(1) Windows용 Instant Client x64를 받아서 압축을 풀고,
-(2) 그 경로를 `PATH`에 넣고,
-(3) Visual C++ 재배포 패키지를 설치하라고 순서대로 짚어줬습니다.
-그대로 따라 하니 붙었어요. 앞선 4-2 준비 과정이 사실 이 에러를 겪고 나서
-정리된 내용입니다.
+### 4-7. 배운 점 요약
 
-> 위 설정은 예시이며, 실제 키 이름과 실행 명령은 사용하는 MCP 서버 문서를 따르세요.
-> (Content was rephrased for compliance with licensing restrictions)
+- 접속 문자열: 로깅 래퍼 제거 + SID(콜론) vs service(슬래시) 구분이 DSN 구성을 가른다
+- oracledb는 thin이 기본이지만, **구형 verifier DB는 thick(Instant Client)이 사실상 필수**
+- stdio MCP는 **stdout 오염 금지** (로그는 stderr로)
+- Kiro 등록은 `.kiro/settings/mcp.json`의 위치와 파일명이 정확해야 한다
+- 안전장치는 "주석 제거 후 검사 + 단일문 강제 + 행 상한"의 다층 방어로
+- 보안 가드가 막은 경로는 우회하지 않고 사용자 안내로 처리한다
 
 ## 5. 안전하게 쓰기 위한 원칙
 
@@ -391,7 +459,7 @@ DB에 붙여보고 나니 한 가지 패턴이 보였습니다. **"사람이 콘
 > 작업이 있다면 거기가 다음 MCP를 붙일 자리입니다.
 {: .prompt-tip }
 
-### 마치며
+## 7. 마치며
 
 수행업체가 현대화 프로젝트에 MCP를 쓰는 걸 보고 "우리도 해볼까?"로 시작했는데,
 막상 붙여보니 단위테스트 하나로 끝날 물건이 아니었습니다.
